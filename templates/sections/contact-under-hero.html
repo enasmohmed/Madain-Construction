@@ -1,0 +1,70 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<!-- Start Contact Area -->
+<section
+  id="simply-contact"
+  class="htc__newsletter__area simply-contact home-section-pad home-section-pad--compact bg__gray{% if LANGUAGE_CODE == 'ar' %} simply-contact--rtl{% endif %}"
+  style="--simply-contact-bg: url('{% static 'images/others/1.png' %}');"
+  {% if LANGUAGE_CODE == 'ar' %}dir="rtl"{% endif %}
+>
+  <div class="simply-contact__container container">
+    <div class="simply-contact__inner">
+      <h2 class="simply-contact__title title__line">
+        <span class="simply-contact__title-part simply-contact__title-part--dark">{% trans "CONTACT" %}</span>
+        <span class="simply-contact__title-part simply-contact__title-part--accent text--theme">{% trans "US" %}</span>
+      </h2>
+      <p class="simply-contact__subtitle">
+        {% trans "Send us a message and we will get back to you soon." %}
+      </p>
+
+      {% for message in messages %}
+        {% if 'contact' in message.tags %}
+          <p class="simply-contact__alert simply-contact__alert--{{ message.tags }}" role="status">{{ message }}</p>
+        {% endif %}
+      {% endfor %}
+
+      <div class="simply-contact__form-wrap">
+        <form method="post" class="simply-contact__form" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="simply-contact__alert simply-contact__alert--error" role="alert">
+              {{ form.non_field_errors }}
+            </div>
+          {% endif %}
+
+          <div class="simply-contact__row">
+            <div class="simply-contact__field">
+              {{ form.name }}
+              {% if form.name.errors %}
+                <p class="simply-contact__field-error" role="alert">{{ form.name.errors|striptags }}</p>
+              {% endif %}
+            </div>
+            <div class="simply-contact__field">
+              {{ form.email }}
+              {% if form.email.errors %}
+                <p class="simply-contact__field-error" role="alert">{{ form.email.errors|striptags }}</p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="simply-contact__field simply-contact__field--full">
+            {{ form.message }}
+            {% if form.message.errors %}
+              <p class="simply-contact__field-error" role="alert">{{ form.message.errors|striptags }}</p>
+            {% endif %}
+          </div>
+
+          <div class="simply-contact__actions">
+            <button type="submit" class="simply-contact__submit">
+              {% trans "Send message" %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Contact Area -->

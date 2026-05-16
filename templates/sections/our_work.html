@@ -1,0 +1,110 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% if our_work_images %}
+<!-- Start Our work gallery (infinite vertical columns) -->
+<section id="our-work" class="htc__latest__project__area home-section-pad bg__white our-work-marquee-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="section__title text-center">
+          {% if site_settings.our_work_section_title %}
+          <h2 class="title__line"{% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
+            <span class="text--theme">{{ site_settings.our_work_section_title }}</span>
+          </h2>
+          {% else %}
+          {% if LANGUAGE_CODE == 'ar' %}
+          <h2 class="title__line" dir="rtl"><span class="text--theme">أعمال</span>نا</h2>
+          {% else %}
+          <h2 class="title__line">OUR <span class="text--theme">WORK</span></h2>
+          {% endif %}
+          {% endif %}
+          <p{% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
+            {% if site_settings.our_work_section_subtitle %}
+              {{ site_settings.our_work_section_subtitle }}
+            {% else %}
+              {% trans "A selection of our recent projects." %}
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 mt--60">
+        <div class="our-work-marquee" data-our-work-marquee>
+          <div class="our-work-marquee__box">
+            <div class="our-work-marquee__gallery">
+              {% for column in our_work_columns %}
+              <div class="our-work-marquee__col">
+                {% for item in column %}
+                {% if item.image or item.video %}
+                <div
+                  class="our-work-marquee__wrap{% if item.video %} our-work-marquee__wrap--video{% endif %}"
+                  role="button"
+                  tabindex="0"
+                  data-media-src="{% if item.image %}{{ item.image.url }}{% else %}{{ item.video.url }}{% endif %}"
+                  data-media-type="{% if item.image %}image{% else %}video{% endif %}"
+                  aria-label="{% if item.video %}{% trans 'Play video' %}{% else %}{% trans 'View image' %}{% endif %}"
+                >
+                  {% if item.image %}
+                  <img
+                    src="{{ item.image.url }}"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width="400"
+                    height="500"
+                  >
+                  {% elif item.video %}
+                  <video
+                    class="our-work-marquee__video"
+                    src="{{ item.video.url }}"
+                    autoplay
+                    muted
+                    playsinline
+                    loop
+                    preload="metadata"
+                  ></video>
+                  <span class="our-work-marquee__play-badge" aria-hidden="true">
+                    <i class="fa fa-play"></i>
+                  </span>
+                  {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="our-work-lightbox"
+    id="our-work-lightbox"
+    hidden
+    role="dialog"
+    aria-modal="true"
+    aria-label="{% trans 'Preview' %}"
+  >
+    <div class="our-work-lightbox__backdrop" data-our-work-lightbox-close></div>
+    <div class="our-work-lightbox__panel">
+      <button
+        type="button"
+        class="our-work-lightbox__close"
+        data-our-work-lightbox-close
+        aria-label="{% trans 'Close' %}"
+      >
+        &times;
+      </button>
+      <div class="our-work-lightbox__body"></div>
+    </div>
+  </div>
+</section>
+<script src="{% static 'js/our-work-gallery.js' %}"></script>
+<!-- End Our work gallery -->
+{% endif %}

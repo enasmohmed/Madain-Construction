@@ -1,0 +1,30 @@
+{# Single Owl slide — vars: slide, bg_url, hero_front, LANGUAGE_CODE #}
+<div
+  class="slide slider__fixed--height slide__align--center"
+  style="background: rgba(0, 0, 0, 0) url('{{ bg_url }}') no-repeat scroll center center / cover; position: relative; overflow: hidden;"
+  data--black__overlay="6"
+>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-lg-12">
+        <div class="slider__inner"{% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
+          {% if slide.tagline %}<h4>{{ slide.tagline }}</h4>{% endif %}
+          {% if slide.heading %}<h1>{{ slide.heading }}</h1>{% endif %}
+          {% if slide.lead %}<p>{{ slide.lead|linebreaksbr }}</p>{% endif %}
+          {% if slide.button_text %}
+          <div class="slider__btn">
+            <a class="htc__btn" href="{% if slide.button_link %}{{ slide.button_link }}{% else %}{% url 'contact_form' %}{% endif %}">{{ slide.button_text }}</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="htc__slider__fornt__img">
+    {% if slide.foreground_image %}
+    <img src="{{ slide.foreground_image.url }}" alt="{{ slide.heading|default:''|striptags }}">
+    {% else %}
+    <img src="{{ hero_front }}" alt="">
+    {% endif %}
+  </div>
+</div>

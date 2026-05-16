@@ -1,0 +1,189 @@
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+{% if mvv_block %}
+<section
+  id="mission-vision-values"
+  class="mvv-split{% if LANGUAGE_CODE == 'ar' %} mvv-split--rtl{% endif %}"
+  dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}"
+  lang="{{ LANGUAGE_CODE }}"
+>
+  <div class="mvv-split__grid">
+    {% with panels=mvv_block.tab_panels.all %}
+    <div class="mvv-split__media" data-mvv-media>
+      {% if panels %}
+        {% for panel in panels %}
+          <img
+            class="mvv-split__media-img{% if forloop.first %} is-active{% endif %}"
+            data-mvv-img="{{ panel.tab_key }}"
+            src="{% if panel.side_image %}{{ panel.side_image.url }}{% else %}{% static 'images/demo-hero-placeholder.png' %}{% endif %}"
+            alt="{{ panel.title|default:'' }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            decoding="async"
+            width="960"
+            height="540"
+            {% if not forloop.first %}hidden{% endif %}
+          />
+        {% endfor %}
+      {% else %}
+        <img
+          class="mvv-split__media-img is-active mvv-split__media-img--placeholder"
+          data-mvv-img="default"
+          src="{% static 'images/demo-hero-placeholder.png' %}"
+          alt="{% trans 'Placeholder image — replace from admin' %}"
+          loading="lazy"
+          width="960"
+          height="540"
+        />
+      {% endif %}
+    </div>
+
+    <div class="mvv-split__panel">
+      {% if panels %}
+        <div class="mvv-split__tabs" role="tablist" aria-label="{% trans 'Vision, mission, and values' %}">
+          {% for panel in panels %}
+            <button
+              type="button"
+              class="mvv-split__tab{% if forloop.first %} is-active{% endif %}"
+              role="tab"
+              id="{{ panel.tab_key }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="mvv-pane-{{ panel.tab_key }}"
+              tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+              data-mvv-tab="{{ panel.tab_key }}"
+            >
+              {% if panel.title %}
+                {{ panel.title }}
+              {% elif LANGUAGE_CODE == 'ar' %}
+                {% if panel.tab_key == 'vision' %}
+                  رؤيتنا
+                {% elif panel.tab_key == 'mission' %}
+                  رسالتنا
+                {% else %}
+                  قيمنا
+                {% endif %}
+              {% else %}
+                {% if panel.tab_key == 'vision' %}
+                  {% trans "Our vision" %}
+                {% elif panel.tab_key == 'mission' %}
+                  {% trans "Our mission" %}
+                {% else %}
+                  {% trans "Our values" %}
+                {% endif %}
+              {% endif %}
+            </button>
+          {% endfor %}
+        </div>
+
+        <div class="mvv-split__panes">
+          {% for panel in panels %}
+            <div
+              class="mvv-split__pane{% if forloop.first %} is-active{% endif %}"
+              role="tabpanel"
+              id="mvv-pane-{{ panel.tab_key }}"
+              aria-labelledby="{{ panel.tab_key }}"
+              tabindex="0"
+              data-mvv-pane="{{ panel.tab_key }}"
+              {% if not forloop.first %}hidden{% endif %}
+            >
+              {% if panel.body %}
+                <div class="mvv-split__body rte">{{ panel.body|safe }}</div>
+              {% endif %}
+
+              {% with bullets=panel.bullets.all %}
+                {% if bullets %}
+                  <div class="mvv-split__bullets" role="group" aria-label="{% trans 'Details' %}">
+                    <div class="mvv-split__bullet-col mvv-split__bullet-col--1">
+                      <ul class="mvv-split__bullet-list">
+                        {% for b in bullets %}
+                          {% if b.column == 1 %}
+                            <li class="mvv-split__bullet-item">{{ b.text }}</li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    <div class="mvv-split__bullet-col mvv-split__bullet-col--2">
+                      <ul class="mvv-split__bullet-list">
+                        {% for b in bullets %}
+                          {% if b.column == 2 %}
+                            <li class="mvv-split__bullet-item">{{ b.text }}</li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endwith %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    {% endwith %}
+  </div>
+</section>
+
+<script>
+(function () {
+  var root = document.getElementById("mission-vision-values");
+  if (!root) return;
+  var tabs = root.querySelectorAll("[data-mvv-tab]");
+  var panes = root.querySelectorAll("[data-mvv-pane]");
+  var imgs = root.querySelectorAll("[data-mvv-img]");
+
+  function activate(key) {
+    tabs.forEach(function (btn) {
+      var on = btn.getAttribute("data-mvv-tab") === key;
+      btn.classList.toggle("is-active", on);
+      btn.setAttribute("aria-selected", on ? "true" : "false");
+      btn.setAttribute("tabindex", on ? "0" : "-1");
+    });
+    panes.forEach(function (pane) {
+      var on = pane.getAttribute("data-mvv-pane") === key;
+      pane.classList.toggle("is-active", on);
+      if (on) pane.removeAttribute("hidden");
+      else pane.setAttribute("hidden", "hidden");
+    });
+    var imgShown = false;
+    imgs.forEach(function (img) {
+      var on = img.getAttribute("data-mvv-img") === key;
+      img.classList.toggle("is-active", on);
+      if (on) {
+        img.removeAttribute("hidden");
+        imgShown = true;
+      } else {
+        img.setAttribute("hidden", "hidden");
+      }
+    });
+    if (!imgShown && imgs.length) {
+      imgs[0].classList.add("is-active");
+      imgs[0].removeAttribute("hidden");
+    }
+  }
+
+  tabs.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      activate(btn.getAttribute("data-mvv-tab"));
+    });
+  });
+
+  function keyFromHash() {
+    var h = (location.hash || "").replace(/^#/, "").toLowerCase();
+    if (!h) return null;
+    if (h === "company-vision") return "vision";
+    if (h === "company-mission") return "mission";
+    if (h === "mission-vision-values") return null;
+    var known = ["vision", "mission", "values"];
+    return known.indexOf(h) >= 0 ? h : null;
+  }
+
+  function applyHash() {
+    var key = keyFromHash();
+    if (key) activate(key);
+  }
+
+  applyHash();
+  window.addEventListener("hashchange", applyHash);
+})();
+</script>
+{% endif %}

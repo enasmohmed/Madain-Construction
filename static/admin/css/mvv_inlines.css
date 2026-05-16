@@ -1,0 +1,61 @@
+/* MVV tabular inlines — fields stay side-by-side (Bootstrap/Jazzmin safe) */
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related {
+  overflow-x: auto;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table {
+  margin-bottom: 0;
+  table-layout: auto;
+  width: 100%;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table thead {
+  display: table-header-group;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table tbody {
+  display: table-row-group;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table tr.form-row {
+  display: table-row !important;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table th,
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td {
+  display: table-cell !important;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.field-text,
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.field-text_en,
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.field-text_ar {
+  min-width: 12rem;
+  white-space: normal;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.field-text input,
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.field-text_en input,
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.field-text_ar input {
+  min-width: 11rem;
+  width: 100%;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.field-column select {
+  min-width: 6.5rem;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.field-order input {
+  max-width: 4.5rem;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table td.delete {
+  text-align: center;
+  width: 3rem;
+}
+
+.inline-group[data-inline-type="tabular"] .tabular.inline-related table.table tr.add-row td {
+  white-space: normal;
+}

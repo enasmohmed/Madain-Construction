@@ -1,0 +1,72 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% if services_section %}
+<section
+  id="services"
+  class="home-services htc__about__area about--2 home-section-pad bg__white{% if LANGUAGE_CODE == 'ar' %} home-services--rtl{% endif %}"
+  dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}"
+  lang="{{ LANGUAGE_CODE }}"
+>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="section__title text-center home-services__header">
+          <h2 class="title__line home-services__title">
+            {% if services_section.title %}
+              {{ services_section.title }}
+            {% else %}
+              {% trans "Our" %} <span class="text--theme">{% trans "services" %}</span>
+            {% endif %}
+          </h2>
+          {% if services_section.subtitle %}
+          <p class="home-services__subtitle">{{ services_section.subtitle }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% if services_section.footer_note %}
+    <p class="home-services__intro-note">{{ services_section.footer_note|linebreaksbr }}</p>
+    {% endif %}
+
+    {% if services_cards %}
+    <div class="row home-services__row">
+      {% for card in services_cards %}
+      <div class="col-xs-12 col-sm-6 col-lg-3 home-services__col">
+        <article class="home-services__card{% if card.is_featured %} home-services__card--featured{% endif %}">
+          {% if card.title %}
+          <h3 class="home-services__card-title">{{ card.title }}</h3>
+          {% endif %}
+          {% if card.intro %}
+          <p class="home-services__card-intro">{{ card.intro }}</p>
+          {% endif %}
+          {% if card.bullet_lines %}
+          <ul class="home-services__card-list">
+            {% for line in card.bullet_lines %}
+            <li>{{ line }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="home-services__card-icon" aria-hidden="true">
+            {% if card.icon %}
+            <img src="{{ card.icon.url }}" alt="" width="56" height="56" loading="lazy">
+            {% else %}
+            <img
+              src="{% static 'images/others/icon-2/' %}{{ forloop.counter }}.png"
+              alt=""
+              width="56"
+              height="56"
+              loading="lazy"
+            >
+            {% endif %}
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

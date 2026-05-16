@@ -1,0 +1,137 @@
+
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% static 'images/slider/bg/1.jpg' as hero_bg_1 %}
+{% static 'images/slider/bg/2.jpg' as hero_bg_2 %}
+{% static 'images/slider/fornt-img/1.png' as hero_front %}
+{% static 'images/demo-hero-placeholder.png' as demo_hero_bg %}
+
+  <!-- Start Slider / Hero Area -->
+  <div id="hero" class="htc-section-anchor htc-section-anchor--hero" aria-hidden="true"></div>
+  {% if use_hero_video %}
+  {# فيديو واحد بلا صوت، تكرار مستمر — النص من أول HeroSlide إن وُجد #}
+  <div class="slider__container hero-video-root">
+      <div class="hero-video-shell slide slider__fixed--height slide__align--center">
+          <video
+            class="hero-bg-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            disablePictureInPicture
+            preload="metadata"
+          >
+              {% if hero_banner.external_video_url %}
+              <source src="{{ hero_banner.external_video_url }}">
+              {% elif hero_banner.background_video %}
+              <source src="{{ hero_banner.background_video.url }}" type="video/mp4">
+              {% endif %}
+          </video>
+          <div class="hero-video-dark-overlay" aria-hidden="true"></div>
+          <div class="container hero-video-inner">
+              <div class="row">
+                  <div class="col-md-12 col-lg-12">
+                      <div class="slider__inner"{% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
+                          {% with slide=hero_slides|first %}
+                          {% if slide %}
+                              {% if slide.tagline %}<h4>{{ slide.tagline }}</h4>{% endif %}
+                              {% if slide.heading %}<h1>{{ slide.heading }}</h1>{% endif %}
+                              {% if slide.lead %}<p>{{ slide.lead|linebreaksbr }}</p>{% endif %}
+                              {% if slide.button_text %}
+                              <div class="slider__btn">
+                                  <a class="htc__btn" href="{% if slide.button_link %}{{ slide.button_link }}{% else %}{% url 'contact_form' %}{% endif %}">{{ slide.button_text }}</a>
+                              </div>
+                              {% endif %}
+                          {% endif %}
+                          {% endwith %}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {# صور أسفل البانر: من Hero banner (عدة صور) أو من أول HeroSlide أو الصورة الافتراضية #}
+          {% if hero_banner.overlay_images.all %}
+          <div class="htc__slider__fornt__img hero-video-front-cluster">
+              <div class="hero-video-front-row">
+                  {% for ov in hero_banner.overlay_images.all %}
+                  <figure class="hero-video-front-item">
+                      <img src="{{ ov.image.url }}" alt="{{ ov.alt_text|default:'' }}">
+                  </figure>
+                  {% endfor %}
+              </div>
+          </div>
+          {% else %}
+          {% with slide=hero_slides|first %}
+          {% if slide %}
+          {% if slide.foreground_image %}
+          <div class="htc__slider__fornt__img hero-video-front-cluster">
+              <div class="hero-video-front-row">
+                  <figure class="hero-video-front-item">
+                      <img src="{{ slide.foreground_image.url }}" alt="{{ slide.heading|default:''|striptags }}">
+                  </figure>
+              </div>
+          </div>
+          {% else %}
+          <div class="htc__slider__fornt__img hero-video-front-cluster">
+              <div class="hero-video-front-row">
+                  <figure class="hero-video-front-item">
+                      <img src="{{ hero_front }}" alt="">
+                  </figure>
+              </div>
+          </div>
+          {% endif %}
+          {% endif %}
+          {% endwith %}
+          {% endif %}
+      </div>
+  </div>
+  {% else %}
+  {# Owl Carousel يحسب العرض بشكل صحيح مع dir="ltr"؛ النص العربي يبقى rtl داخل .slider__inner #}
+  <div class="slider__container">
+      <div id="heroHomeCarousel" class="slider__activation__wrap owl-carousel owl-theme hero-owl-ltr hero-home-carousel" dir="ltr">
+          {% if hero_slides %}
+          {% for slide in hero_slides %}
+          {# صور متعددة من الإدارة: الخلفية الرئيسية ثم «صور خلفية إضافية» — كل صورة = شريحة Owl بنفس النص #}
+          {% if slide.extra_backgrounds.exists %}
+              {% if slide.background_image %}
+              {% include "sections/_hero_slide_item.html" with slide=slide bg_url=slide.background_image.url hero_front=hero_front LANGUAGE_CODE=LANGUAGE_CODE %}
+              {% endif %}
+              {% for ex in slide.extra_backgrounds.all %}
+              {% include "sections/_hero_slide_item.html" with slide=slide bg_url=ex.image.url hero_front=hero_front LANGUAGE_CODE=LANGUAGE_CODE %}
+              {% endfor %}
+          {% elif slide.background_image %}
+          {% include "sections/_hero_slide_item.html" with slide=slide bg_url=slide.background_image.url hero_front=hero_front LANGUAGE_CODE=LANGUAGE_CODE %}
+          {% else %}
+          {% include "sections/_hero_slide_item.html" with slide=slide bg_url=demo_hero_bg hero_front=hero_front LANGUAGE_CODE=LANGUAGE_CODE %}
+          {% endif %}
+          {% endfor %}
+          {% else %}
+          <!-- Fallback عند عدم وجود شرائح في الإدارة — صورة تجريبية + نص عربي -->
+          <div class="slide slider__fixed--height slide__align--center" style="background: rgba(0, 0, 0, 0) url('{{ demo_hero_bg }}') no-repeat scroll center center / cover; position: relative; overflow: hidden;" data--black__overlay="6">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-12 col-lg-12">
+                          <div class="slider__inner" dir="rtl">
+                              <h4>صورة خلفية تجريبية</h4>
+                              <h1>مرحباً بكم في الموقع</h1>
+                              <p>هذا نص تجريبي يظهر عندما لا توجد شرائح في لوحة التحكم. استبدل المحتوى من قسم Hero slides في الإدارة، أو اترك هذا المعاين حتى تجهز الصور والنصوص.</p>
+                              <div class="slider__btn">
+                                  <a class="htc__btn" href="{% url 'contact_form' %}">تواصل معنا</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="htc__slider__fornt__img">
+                  <img src="{{ hero_front }}" alt="">
+              </div>
+          </div>
+          {% endif %}
+      </div>
+  </div>
+  {% endif %}
+  <!-- End Slider / Hero Area -->
+
+
+ 

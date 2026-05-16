@@ -1,0 +1,249 @@
+{% load static %}
+{% load i18n %}
+
+<!-- Start Contact Address (بيانات الفوتر فقط — منفصلة عن النافبار) -->
+{% if footer_data.address or footer_data.email or footer_data.website or footer_data.map_url or footer_data.phone_landline or footer_data.phone_mobile %}
+<div class="htc__contact__address add-res bg__cat--1" dir="rtl">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="htc__contact__wrap htc__contact__wrap--rtl htc__contact__wrap--cols-3 clearfix">
+          {% if footer_data.phone_landline or footer_data.phone_mobile %}
+          <div class="ht__address__inner ht__address__inner--icon-end" dir="rtl">
+            {% if footer_data.phone_tel_primary %}
+            <a
+              href="tel:{{ footer_data.phone_tel_primary }}"
+              class="ht__address__icon-link"
+              aria-label="{% trans 'Call us' %}"
+            >
+              <span class="ht__address__icon">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+              </span>
+            </a>
+            {% else %}
+            <span class="ht__address__icon">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+            </span>
+            {% endif %}
+            <div class="ht__address__details">
+              <p class="ht__address__phones">
+                {% if footer_data.phone_landline %}
+                <a class="ht__address__phone-line" href="tel:{{ footer_data.phone_landline|cut:' ' }}">{{ footer_data.phone_landline }}</a>
+                {% endif %}
+                {% if footer_data.phone_mobile %}
+                <a class="ht__address__phone-line" href="tel:{{ footer_data.phone_mobile|cut:' ' }}">{{ footer_data.phone_mobile }}</a>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if footer_data.email or footer_data.map_url or footer_data.website %}
+          <div class="ht__address__inner ht__address__inner--icon-end" dir="rtl">
+            {% if footer_data.map_url %}
+            <a
+              href="{{ footer_data.map_url }}"
+              class="ht__address__icon-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{% trans 'Open map' %}"
+            >
+              <span class="ht__address__icon glob">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+              </span>
+            </a>
+            {% else %}
+            <span class="ht__address__icon glob">
+              <i class="fa fa-globe" aria-hidden="true"></i>
+            </span>
+            {% endif %}
+            <div class="ht__address__details">
+              {% if footer_data.email %}
+              <p>
+                <a href="mailto:{{ footer_data.email }}">{{ footer_data.email }}</a>
+              </p>
+              {% endif %}
+              {% if footer_data.map_url %}
+              <p>
+                <a href="{{ footer_data.map_url }}" target="_blank" rel="noopener noreferrer">
+                  {% trans "View on map" %}
+                </a>
+              </p>
+              {% elif footer_data.website %}
+              <p>
+                <a href="{{ footer_data.website }}" target="_blank" rel="noopener noreferrer">
+                  {{ footer_data.website }}
+                </a>
+              </p>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+
+          {% if footer_data.address %}
+          <div class="ht__address__inner ht__address__inner--icon-end" dir="rtl">
+            {% if footer_data.map_url %}
+            <a
+              href="{{ footer_data.map_url }}"
+              class="ht__address__icon-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{% trans 'Open map' %}"
+            >
+              <span class="ht__address__icon map-pin">
+                <i class="zmdi zmdi-pin" aria-hidden="true"></i>
+              </span>
+            </a>
+            {% else %}
+            <span class="ht__address__icon map-pin">
+              <i class="zmdi zmdi-pin" aria-hidden="true"></i>
+            </span>
+            {% endif %}
+            <div class="ht__address__details">
+              {% if footer_data.map_url %}
+              <p>
+                <a href="{{ footer_data.map_url }}" target="_blank" rel="noopener noreferrer">
+                  {{ footer_data.address|linebreaksbr }}
+                </a>
+              </p>
+              {% else %}
+              <p>{{ footer_data.address|linebreaksbr }}</p>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<!-- End Contact Address -->
+
+<!-- Start Footer Area -->
+<footer class="htc__footer__area" dir="rtl">
+  <div
+    class="footer__top ptb--100"
+    data--1f2d30__overlay="9.5"
+    style="background: rgba(16, 21, 27, 0.82) url('{% static "images/bg/2.jpg" %}') no-repeat fixed center center / cover;"
+  >
+    <div class="container">
+      <div class="row">
+        <div class="htc__footer__wrap htc__footer__wrap--rtl htc__footer__wrap--cols-3 clearfix">
+          <!-- يمين: من نحن -->
+          <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 footer__col footer__col--about">
+            <div class="footer foo footer--about">
+              {% if footer_data.logo_url %}
+              <div class="footer__about-brand">
+                <a href="{% url 'home' %}" class="footer__logo-link">
+                  <img
+                    src="{{ footer_data.logo_url }}"
+                    alt="{{ footer_data.site_name|default:site_settings.site_name }}"
+                    class="footer__logo"
+                    width="160"
+                    height="auto"
+                  >
+                </a>
+              </div>
+              {% endif %}
+              <div class="ft__details footer__about-text">
+                {% if footer_data.description %}
+                  <p>{{ footer_data.description|linebreaksbr }}</p>
+                {% else %}
+                  <p>
+                    {% trans "Madayin Al-btikar provides integrated construction, finishing, and engineering solutions with a commitment to quality and timely delivery across the Kingdom." %}
+                  </p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- وسط: روابط سريعة -->
+          <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 footer__col footer__col--links">
+            <div class="footer quick__link foo">
+              <div class="footer__widget">
+                <h2 class="ft__title">{% trans "Quick links" %}</h2>
+              </div>
+              <div class="footer__link footer__link--stacked">
+                <ul class="ft__menu">
+                  {% for link in footer_data.quick_links_col1 %}
+                  <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+                  {% endfor %}
+                  {% for link in footer_data.quick_links_col2 %}
+                  <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- يسار: شعار رؤية 2030 -->
+          <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 footer__col footer__col--vision2030">
+            <div class="footer foo">
+            
+              <div class="footer__vision2030">
+                <img
+                  src="{% static 'images/brand/Saudi_Vision_2030_logo.png' %}"
+                  alt="{% trans 'Saudi Vision 2030' %}"
+                  class="footer__vision2030-logo"
+                  width="240"
+                  height="120"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </div>
+              {% if footer_data.social_links %}
+              <nav class="footer__social footer__social--under-vision" aria-label="{% trans 'Social media' %}">
+                <ul class="footer__social-list">
+                  {% for item in footer_data.social_links %}
+                  <li>
+                    <a
+                      href="{{ item.href }}"
+                      class="footer__social-link footer__social-link--{{ item.modifier }}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="{{ item.label }}"
+                    >
+                      {% if item.icon_type == 'svg' and item.modifier == 'tiktok' %}
+                      <svg class="footer__social-svg footer__social-svg--tiktok" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                      </svg>
+                      {% else %}
+                      <i class="fa {{ item.icon }}" aria-hidden="true"></i>
+                      {% endif %}
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </nav>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="copyright bg__theme" dir="rtl">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="copyright__inner copyright__inner--with-top">
+            {% now "Y" as footer_year %}
+            {% if footer_data.copyright_text %}
+            <p>{{ footer_data.copyright_text }}</p>
+            {% else %}
+            <p>
+              {% blocktrans with year=footer_year site_name=footer_data.site_name|default:site_settings.site_name %}
+              All rights reserved {{ year }} — {{ site_name }}.
+              {% endblocktrans %}
+            </p>
+            {% endif %}
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- End Footer Area -->

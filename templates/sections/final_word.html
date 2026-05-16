@@ -1,0 +1,65 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% if final_word_section %}
+{% with has_image=final_word_section.image col1=final_word_section.col1_lines col2=final_word_section.col2_lines %}
+<section
+  id="final-word"
+  class="final-word{% if LANGUAGE_CODE == 'ar' %} final-word--rtl{% endif %}{% if has_image %} final-word--has-image{% else %} final-word--text-only{% endif %}"
+  dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}"
+  lang="{{ LANGUAGE_CODE }}"
+>
+  {% if final_word_section.title %}
+    <header class="final-word__header">
+      <h2 class="final-word__title">{{ final_word_section.title }}</h2>
+    </header>
+  {% endif %}
+
+  <div class="final-word__card">
+    <div class="final-word__split{% if has_image %} final-word__split--with-image{% endif %}">
+      <article class="final-word__content">
+        {% if col1 or col2 %}
+          <div
+            class="final-word__columns{% if col1 and col2 %} final-word__columns--dual{% else %} final-word__columns--single{% endif %}"
+            role="group"
+            aria-label="{% trans 'Details' %}"
+          >
+            {% if col1 %}
+              <div class="final-word__col final-word__col--1">
+                <ul class="final-word__list">
+                  {% for line in col1 %}
+                    <li class="final-word__item">{{ line.text }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+            {% if col2 %}
+              <div class="final-word__col final-word__col--2">
+                <ul class="final-word__list">
+                  {% for line in col2 %}
+                    <li class="final-word__item">{{ line.text }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+        {% elif final_word_section.body %}
+          <div class="final-word__body rte">{{ final_word_section.body|safe }}</div>
+        {% endif %}
+      </article>
+
+      {% if has_image %}
+        <figure class="final-word__figure">
+          <img
+            src="{{ final_word_section.image.url }}"
+            alt=""
+            class="final-word__img"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endwith %}
+{% endif %}

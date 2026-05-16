@@ -1,0 +1,91 @@
+{% load i18n %}
+{% load nav_tags %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<!-- Start Header Style: اتجاه عربي (RTL) ثابت -->
+<div id="header" class="htc-header htc-header--rtl" dir="rtl">
+  <!-- Start Header Top: يسار = واتساب، يمين = هاتف وساعات العمل -->
+  <div class="htc__header__top bg__cat--1">
+      <div class="container">
+          <div class="row htc-header-top-row" dir="ltr">
+              <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 htc-header-top-col-cta">
+                  <ul class="heaher__top__left header-top-util">
+                      {% if site_settings.whatsapp_url %}
+                      <li class="header-top-util__whatsapp">
+                          <a
+                            href="{{ site_settings.whatsapp_url }}"
+                            class="header-top-whatsapp"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="{% if LANGUAGE_CODE == 'ar' %}تواصل عبر واتساب {{ site_settings.whatsapp_number }}{% else %}WhatsApp {{ site_settings.whatsapp_number }}{% endif %}"
+                          >
+                              <span class="header-top-whatsapp__icon" aria-hidden="true">
+                                <i class="fa fa-whatsapp"></i>
+                              </span>
+                              <span class="header-top-whatsapp__number">{{ site_settings.whatsapp_number }}</span>
+                          </a>
+                      </li>
+                      {% endif %}
+                  </ul>
+              </div>
+              <div class="col-md-7 col-lg-7 col-sm-12 col-xs-12 htc-header-top-col-contact">
+                  <ul class="heaher__top__left header-contact-bar">
+                      {% if site_settings.working_hours %}
+                      <li><i class="fa fa-clock-o" aria-hidden="true"></i>{{ site_settings.working_hours }}</li>
+                      {% endif %}
+                      {% if site_settings.phone_landline %}
+                      <li class="header-contact-bar__phone">
+                          <a href="tel:{{ site_settings.phone_landline|cut:' ' }}">
+                              <i class="fa fa-phone" aria-hidden="true"></i>{{ site_settings.phone_landline }}
+                          </a>
+                      </li>
+                      {% endif %}
+                      {% if site_settings.phone_mobile %}
+                      <li class="header-contact-bar__phone">
+                          <a href="tel:{{ site_settings.phone_mobile|cut:' ' }}">
+                              <i class="fa fa-phone" aria-hidden="true"></i>{{ site_settings.phone_mobile }}
+                          </a>
+                      </li>
+                      {% endif %}
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- End Header Top -->
+  <!-- Start Mainmenu Area -->
+  <div id="sticky-header-with-topbar" class="mainmenu__wrap sticky__header" dir="rtl">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-2 col-sm-6 col-xs-7">
+                  <div class="logo">
+                      <a href="{% url 'home' %}">
+                          <img class="htc-navbar-logo-img" src="{{ site_settings.logo_url }}" alt="{{ site_settings.site_name|default:'Logo' }}">
+                      </a>
+                  </div>
+              </div>
+              <div class="col-md-10 col-sm-6 col-xs-5 htc-navbar-menu-col">
+                  <nav class="main__menu__nav  hidden-xs hidden-sm" dir="rtl">
+                      <ul class="main__menu">
+                          {% for section in nav_sections %}
+                          <li><a href="{% nav_section_url section %}">{{ section.title }}</a></li>
+                          {% endfor %}
+                      </ul>
+                  </nav>
+                  <div class="mobile-menu clearfix visible-xs visible-sm">
+                      <nav id="mobile_dropdown" dir="rtl">
+                          <ul>
+                              {% for section in nav_sections %}
+                              <li><a href="{% nav_section_url section %}">{{ section.title }}</a></li>
+                              {% endfor %}
+                          </ul>
+                      </nav>
+                  </div>
+              </div>
+          </div>
+          <div class="mobile-menu-area"></div>
+      </div>
+  </div>
+  <!-- End Mainmenu Area -->
+</div>
+<!-- End Header Style -->

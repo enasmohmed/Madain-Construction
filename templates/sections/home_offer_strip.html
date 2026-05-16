@@ -1,0 +1,87 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{# مثل index.html: 3 أعمدة داخل container + صورة h1__offer__image خارج الصف وتطفو فوق الهيرو #}
+<section
+  id="about"
+  class="htc__offer__area htc__offer--2 simply-home-offer simply-home-offer--v3 home-section-pad bg__white{% if LANGUAGE_CODE == 'ar' %} simply-home-offer--rtl{% endif %}"
+  {% if LANGUAGE_CODE == 'ar' %}dir="rtl"{% endif %}
+>
+  <div class="container simply-home-offer__inner"{% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
+    <div class="row simply-home-offer__row">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <div class="offer simply-home-offer__card"{% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
+          <div class="offer__icon">
+            <img src="{% static 'images/others/icon-2/1.png' %}" alt="" width="80" height="80" loading="lazy">
+          </div>
+          <div class="offer__details">
+            <h2 class="simply-home-offer__title">
+              {% if offer_strip and offer_strip.column_1_title %}
+                {{ offer_strip.column_1_title }}
+              {% else %}
+                {% trans "TOP RATED" %}
+              {% endif %}
+            </h2>
+            <p class="simply-home-offer__text">
+              {% if offer_strip and offer_strip.column_1_text %}
+                {{ offer_strip.column_1_text }}
+              {% else %}
+                {% trans "We combine disciplined execution with clear communication—so expectations, timelines, and quality stay aligned from kickoff to handover." %}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 xmt-40">
+        <div class="offer simply-home-offer__card separator"{% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
+          <div class="offer__icon">
+            <img src="{% static 'images/others/icon-2/2.png' %}" alt="" width="80" height="80" loading="lazy">
+          </div>
+          <div class="offer__details">
+            <h2 class="simply-home-offer__title">
+              {% if offer_strip and offer_strip.column_2_title %}
+                {{ offer_strip.column_2_title }}
+              {% else %}
+                {% trans "BEST QUALITY" %}
+              {% endif %}
+            </h2>
+            <p class="simply-home-offer__text">
+              {% if offer_strip and offer_strip.column_2_text %}
+                {{ offer_strip.column_2_text }}
+              {% else %}
+                {% trans "Materials, methods, and supervision are chosen for durability and safety—built to look sharp today and perform for years." %}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 xmt-40">
+        <div class="offer simply-home-offer__card separator"{% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
+          <div class="offer__icon">
+            <img src="{% static 'images/others/icon-2/3.png' %}" alt="" width="80" height="80" loading="lazy">
+          </div>
+          <div class="offer__details">
+            <h2 class="simply-home-offer__title">
+              {% if offer_strip and offer_strip.column_3_title %}
+                {{ offer_strip.column_3_title }}
+              {% else %}
+                {% trans "LOW COST" %}
+              {% endif %}
+            </h2>
+            <p class="simply-home-offer__text">
+              {% if offer_strip and offer_strip.column_3_text %}
+                {{ offer_strip.column_3_text }}
+              {% else %}
+                {% trans "Smart planning and lean workflows help control budget—without cutting corners on compliance or finish." %}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="h1__offer__image simply-home-offer__float-img" aria-hidden="true">
+    <img src="{% static 'images/others/3.png' %}" alt="">
+  </div>
+</section>

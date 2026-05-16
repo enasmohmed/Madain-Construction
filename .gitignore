@@ -1,0 +1,43 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+.venv/
+.venv-compress/
+
+# Django
+*.log
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+
+# Environment
+.env
+.env.*
+*.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Media / uploads (keep on server, not in Git)
+*.mp4
+*.mov
+*.avi
+*.bak
+*.bak.mp4
+
+# OS / cache
+.cache/
+.DS_Store
+Thumbs.db

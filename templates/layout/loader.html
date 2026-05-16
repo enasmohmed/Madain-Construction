@@ -1,0 +1,251 @@
+<!-- preloader start -->
+<style>
+  /* خلفية متحركة بألوان الشعار: كحلي عميق + أزرق بنّي + ذهبي/برتقالي */
+  @keyframes simply-preloader-bg {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  #simply-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.45s ease;
+    background-color: #0a1628;
+    background-image: linear-gradient(
+      125deg,
+      #070f1a 0%,
+      #0f2744 22%,
+      #152642 42%,
+      #1a365d 58%,
+      #422006 78%,
+      #854d0e 88%,
+      #c99716 100%
+    );
+    background-size: 320% 320%;
+    animation: simply-preloader-bg 14s ease-in-out infinite;
+  }
+  @keyframes simply-preloader-aurora {
+    0%, 100% {
+      opacity: 0.72;
+      transform: translateY(4%) scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-3%) scale(1.03);
+    }
+  }
+  #simply-preloader::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: -20%;
+    background: radial-gradient(
+      ellipse 55% 45% at 50% 100%,
+      rgba(234, 179, 8, 0.26) 0%,
+      rgba(217, 119, 6, 0.1) 35%,
+      transparent 62%
+    );
+    pointer-events: none;
+    animation: simply-preloader-aurora 10s ease-in-out infinite;
+  }
+  #simply-preloader::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 42%,
+      rgba(255, 255, 255, 0.07) 0%,
+      transparent 48%
+    );
+    pointer-events: none;
+  }
+  @keyframes simply-preloader-logo {
+    0%, 100% {
+      transform: scale(1) translateY(0);
+      filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 24px rgba(234, 179, 8, 0.15));
+    }
+    45% {
+      transform: scale(1.07) translateY(-5px);
+      filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 32px rgba(234, 179, 8, 0.28));
+    }
+    70% {
+      transform: scale(1.02) translateY(-2px);
+      filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 22px rgba(234, 179, 8, 0.2));
+    }
+  }
+  /* هالة خلف الشعار — مناسبة للخلفية الداكنة */
+  @keyframes simply-preloader-halo {
+    0%, 100% {
+      transform: scale(0.94);
+      opacity: 0.88;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 0 50px rgba(234, 179, 8, 0.2),
+        0 18px 40px rgba(0, 0, 0, 0.45),
+        inset 0 0 40px rgba(255, 255, 255, 0.06);
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.14),
+        0 0 70px rgba(245, 158, 11, 0.32),
+        0 26px 55px rgba(0, 0, 0, 0.55),
+        inset 0 0 50px rgba(255, 255, 255, 0.09);
+    }
+  }
+  @keyframes simply-preloader-ring {
+    0% {
+      transform: rotate(0deg);
+      opacity: 0.55;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+    }
+    50% {
+      opacity: 0.95;
+      filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 18px rgba(234, 179, 8, 0.45));
+    }
+    100% {
+      transform: rotate(360deg);
+      opacity: 0.55;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+    }
+  }
+  @keyframes simply-preloader-ring-reverse {
+    0% {
+      transform: rotate(0deg);
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.75;
+    }
+    100% {
+      transform: rotate(-360deg);
+      opacity: 0.4;
+    }
+  }
+  #simply-preloader .simply-preloader__wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px;
+  }
+  #simply-preloader .simply-preloader__halo {
+    position: absolute;
+    width: 218px;
+    height: 218px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 50% 42%,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.05) 42%,
+      rgba(15, 39, 68, 0.25) 68%,
+      rgba(255, 255, 255, 0) 74%
+    );
+    animation: simply-preloader-halo 2.6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #simply-preloader .simply-preloader__ring {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 2.5px solid transparent;
+    border-top-color: rgba(241, 245, 249, 0.55);
+    border-right-color: rgba(148, 163, 184, 0.25);
+    border-bottom-color: rgba(245, 158, 11, 0.55);
+    animation: simply-preloader-ring 1.35s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #simply-preloader .simply-preloader__ring--outer {
+    width: 228px;
+    height: 228px;
+    border-width: 1.5px;
+    border-top-color: rgba(234, 179, 8, 0.65);
+    border-right-color: rgba(251, 191, 36, 0.2);
+    border-bottom-color: transparent;
+    animation: simply-preloader-ring-reverse 2.4s linear infinite;
+    filter: drop-shadow(0 0 14px rgba(234, 179, 8, 0.35));
+  }
+  #simply-preloader .simply-preloader__logo {
+    position: relative;
+    z-index: 1;
+    max-width: 180px;
+    height: auto;
+    display: block;
+    animation: simply-preloader-logo 2.2s ease-in-out infinite;
+    will-change: transform, filter;
+  }
+
+  @media (max-width: 575px) {
+    #simply-preloader .simply-preloader__wrap {
+      padding: 24px;
+    }
+
+    #simply-preloader .simply-preloader__halo {
+      height: 170px;
+      width: 170px;
+    }
+
+    #simply-preloader .simply-preloader__ring {
+      height: 156px;
+      width: 156px;
+    }
+
+    #simply-preloader .simply-preloader__ring--outer {
+      height: 178px;
+      width: 178px;
+    }
+
+    #simply-preloader .simply-preloader__logo {
+      max-width: 140px;
+    }
+  }
+</style>
+<div id="simply-preloader">
+  <div class="simply-preloader__wrap">
+    <!-- الهالة = توهج وظلال خلف الشعار | الحلقتان = دوائر حدودها جزئية تدور (اتجاهين) لمؤشر تحميل -->
+    <span class="simply-preloader__halo" aria-hidden="true"></span>
+    <span class="simply-preloader__ring simply-preloader__ring--outer" aria-hidden="true"></span>
+    <span class="simply-preloader__ring" aria-hidden="true"></span>
+    <img class="simply-preloader__logo" src="{{ site_settings.preloader_logo_url }}" alt="{{ site_settings.site_name|default:'Logo' }}">
+  </div>
+</div>
+<script>
+(function () {
+  function hidePreloader() {
+    var el = document.getElementById('simply-preloader');
+    if (!el) return;
+    el.style.opacity = '0';
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 500);
+  }
+  /* كان يستخدم حدث window «load» فينتظر كل الصور والسكربتات — يُبطئ فتح الصفحة. نخفي بعد DOM + إطار رسم، مع سقف زمني. */
+  function scheduleHide() {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(hidePreloader);
+    });
+  }
+  if (document.readyState !== 'loading') {
+    scheduleHide();
+  } else {
+    document.addEventListener('DOMContentLoaded', scheduleHide);
+  }
+  setTimeout(hidePreloader, 2800);
+})();
+</script>
+<!-- preloader end -->
