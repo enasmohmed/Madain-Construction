@@ -30,7 +30,12 @@ staticfiles/
 *.swp
 *.swo
 
-# Media / uploads (keep on server, not in Git)
+# Media archives / uploads (deploy to server separately, not via Git)
+media.zip
+*.zip
+!static/**/*.zip
+
+# Large media (keep on server)
 *.mp4
 *.mov
 *.avi
