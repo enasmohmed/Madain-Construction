@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
 
     'django.middleware.locale.LocaleMiddleware',
+    'core.middleware.ForceArabicLanguageMiddleware',
 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -166,19 +167,21 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
+# Arabic-only public site (admin may still use modeltranslation tabs).
 LANGUAGES = [
-    ('en', 'English'),
     ('ar', 'العربية'),
 ]
+
+FORCE_SITE_LANGUAGE = 'ar'
 
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
 
 # Modeltranslation settings
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
-MODELTRANSLATION_LANGUAGES = ('en', 'ar')
-MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ar'
+MODELTRANSLATION_LANGUAGES = ('ar', 'en')
+MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'ar'
 
 
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

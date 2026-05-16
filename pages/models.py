@@ -226,7 +226,7 @@ class HomeOfferStrip(models.Model):
     language = models.CharField(
         max_length=5,
         choices=[("en", "English"), ("ar", "Arabic")],
-        default="en",
+        default="ar",
     )
     is_active = models.BooleanField(default=True)
 

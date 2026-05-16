@@ -25,12 +25,12 @@ class HomeView(FormView):
     form_class = HomeContactForm
 
     def _offer_strip_for_request(self):
-        lang = getattr(self.request, "LANGUAGE_CODE", None) or "en"
+        lang = getattr(self.request, "LANGUAGE_CODE", None) or "ar"
         qs = HomeOfferStrip.objects.filter(is_active=True)
         return qs.filter(language=lang).first() or qs.first()
 
     def _services_section_for_request(self):
-        lang = getattr(self.request, "LANGUAGE_CODE", None) or "en"
+        lang = getattr(self.request, "LANGUAGE_CODE", None) or "ar"
         card_qs = HomeServiceCard.objects.filter(is_active=True).order_by("order", "id")
         base_qs = HomeServicesSection.objects.filter(is_active=True).prefetch_related(
             Prefetch("cards", queryset=card_qs),
@@ -44,7 +44,7 @@ class HomeView(FormView):
         return section or base_qs.first()
 
     def _mvv_block_for_request(self):
-        lang = getattr(self.request, "LANGUAGE_CODE", None) or "en"
+        lang = getattr(self.request, "LANGUAGE_CODE", None) or "ar"
         qs = MissionVisionValuesBlock.objects.filter(is_active=True).prefetch_related(
             Prefetch(
                 "partner_logos",
@@ -63,7 +63,7 @@ class HomeView(FormView):
         return qs.filter(language=lang).first() or qs.first()
 
     def _final_word_for_request(self):
-        lang = getattr(self.request, "LANGUAGE_CODE", None) or "en"
+        lang = getattr(self.request, "LANGUAGE_CODE", None) or "ar"
         qs = FinalWordSection.objects.filter(is_active=True).prefetch_related(
             Prefetch(
                 "column_lines",

@@ -6,6 +6,7 @@
 >
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="content-language" content="ar" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title style="font-family: &quot;ShubbakW05&quot;, sans-serif !important">
       {{ site_settings.site_name }}
@@ -27,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
 
@@ -62,10 +63,15 @@
         font-weight: bold;
         border-bottom: 2px solid #ff6600;
       }
+
+      html[lang="ar"] body,
+      html[dir="rtl"] body {
+        font-family: "Cairo", "Tajawal", sans-serif;
+      }
     </style>
   </head>
 
-  <body id="top" class="{% block body_class %}{% endblock %}">
+  <body id="top" class="site-lang-ar {% block body_class %}{% endblock %}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
     <!-- page wrapper start -->
 
     <div class="page-wrapper">
