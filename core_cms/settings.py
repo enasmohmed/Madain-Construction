@@ -178,6 +178,10 @@ LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
 
+FIXTURE_DIRS = [
+    BASE_DIR / 'fixtures',
+]
+
 # Modeltranslation settings
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ar'
 MODELTRANSLATION_LANGUAGES = ('ar', 'en')

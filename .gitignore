@@ -11,6 +11,7 @@ venv/
 env/
 .venv/
 .venv-compress/
+.venv-restore/
 
 # Django
 *.log
